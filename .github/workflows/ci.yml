@@ -51,7 +51,7 @@ jobs:
         run: python hello.py
       
       - name: Smoke Tests
-        run: pytest
+        run: pytest --html=Report.html --self-contained-html --capture=tee-sys --junitxml=Report.xml -v
       
 
       # Runs a set of commands using the runners shell
@@ -64,4 +64,8 @@ jobs:
         id: html_preview
         uses: pavi2410/html-preview-action@v2
         with:
-          html_file: 'Report.html'
+          html_file: 'Report.html' 
+      
+      - name: Print HTML Link
+        run: |
+          echo '${{ steps.html_preview.outputs.url }}'
