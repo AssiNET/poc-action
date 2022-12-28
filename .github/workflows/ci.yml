@@ -46,9 +46,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        
-      - run: python hello.py
       
+      - name: Run Sample Python script
+        run: python hello.py
+      
+      - name: Smoke Tests
+        run: pytest
       
 
       # Runs a set of commands using the runners shell
