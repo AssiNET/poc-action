@@ -69,3 +69,9 @@ jobs:
       - name: Print HTML Link
         run: |
           echo '${{ steps.html_preview.outputs.url }}'
+          
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          junit_files: "*.xml"
