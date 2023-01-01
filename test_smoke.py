@@ -26,6 +26,9 @@ class FeeldTests(unittest.TestCase):
         }
 
         cls.driver = webdriver.Remote("https://" + userName + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub", desired_caps)
+        
+        # print the session ID in the IDE's console
+        print(cls.driver.session_id)
 
 
     # Execute BEFORE each Test
