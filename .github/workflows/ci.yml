@@ -46,6 +46,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          
+      - name: Run jq
+        uses: sergeysova/jq-action@v2
       
       - name: Run Sample Python script
         run: python hello.py
@@ -69,6 +72,19 @@ jobs:
       - name: Print HTML Link
         run: |
           echo '${{ steps.html_preview.outputs.url }}'
+          
+      - name: Get Report URL
+        id: report_url
+        run: |
+          url=$(
+          curl -u "${{ secrets.BROWSERSTACK_USERNAME }}:${{ secrets.BROWSERSTACK_ACCESS_KEY }}" \
+          -X GET "https://api-cloud.browserstack.com/app-automate/sessions/${{ secrets.BROWSERSTACK_SESSION_ID }}.json" \
+          | jq -r '.automation_session.public_url'
+          )
+          echo "::set-output name=url::$(date)" 
+          
+      - name: Print Browserstack Report Link
+        run: echo "Click here to view the report:[Browserstack Report Link](steps.report_url.outputs.url)"
           
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
