@@ -72,7 +72,7 @@ jobs:
         with:
           path: "session_id.txt"
           
-      - name: Print Report URL
+      - name: Get Browserstack Report URL
         id: report_url
         run: |
           echo | 
@@ -86,8 +86,10 @@ jobs:
         with:
           path: "public_url.txt"
           
-      - name: Print Browserstack Report Link
-        run: echo "Click here to view the report:[Browserstack Report Link](${{ steps.read_file_public_url.outputs.contents }})"
+      - name: Browserstack Report Link
+        #run: echo "Click here to view the report:[Browserstack Report Link](${{ steps.read_file_public_url.outputs.contents }})"
+        run: echo '<a href=${{ steps.read_file_public_url.outputs.contents }}>Browserstack Report</a>'
+
           
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
