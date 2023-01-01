@@ -78,7 +78,7 @@ jobs:
         run: |
           url=$(
           curl -u "${{ secrets.BROWSERSTACK_USERNAME }}:${{ secrets.BROWSERSTACK_ACCESS_KEY }}" \
-          -X GET "https://api-cloud.browserstack.com/app-automate/sessions/${{ secrets.BROWSERSTACK_SESSION_ID }}.json" \
+          -X GET "https://api-cloud.browserstack.com/app-automate/sessions/d8ef1ee7c758f8c7b5a0fb27e3f1ca455d9eba93.json" \
           | jq -r '.automation_session.public_url'
           )
           echo "::set-output name=url::$(date)" 
