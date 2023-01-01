@@ -19,6 +19,8 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env: 
+      BROWSERSTACK_SESSION_ID: '1234'
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -86,7 +88,7 @@ jobs:
         id: report_url
         run: |
           curl -u "${{ secrets.BROWSERSTACK_USERNAME }}:${{ secrets.BROWSERSTACK_ACCESS_KEY }}" \
-          -X GET "https://api-cloud.browserstack.com/app-automate/sessions/${{ secrets.BROWSERSTACK_SESSION_ID }}.json" \
+          -X GET "https://api-cloud.browserstack.com/app-automate/sessions/${{ env.BROWSERSTACK_SESSION_ID }}.json" \
           | jq -r '.automation_session.public_url'
           
       - name: Print Browserstack Report Link
