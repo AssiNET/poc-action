@@ -29,6 +29,7 @@ class FeeldTests(unittest.TestCase):
         
         # print the session ID in the IDE's console
         print(cls.driver.session_id)
+        os.environ['BROWSERSTACK_SESSION_ID'] = cls.driver.session_id
 
 
     # Execute BEFORE each Test
