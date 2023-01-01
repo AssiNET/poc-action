@@ -51,12 +51,6 @@ jobs:
           
       - name: Run jq
         uses: sergeysova/jq-action@v2
-        
-      - name: Read file contents
-        id: read_file
-        uses: andstor/file-reader-action@v1
-        with:
-          path: "session_id.txt"
       
       - name: Run Sample Python script
         run: python hello.py
@@ -89,6 +83,12 @@ jobs:
           | jq -r '.automation_session.public_url'
           )
           echo "::set-output name=url" 
+          
+      - name: Read file contents
+        id: read_file
+        uses: andstor/file-reader-action@v1
+        with:
+          path: "session_id.txt"
           
       - name: Print Report URL
         id: report_url
