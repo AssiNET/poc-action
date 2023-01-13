@@ -54,7 +54,7 @@ class SenturTests(unittest.TestCase):
         print("Test Suite Completed")
 
 
-    def test_100_update_about_info(self):
+    def test_100_login(self):
 
         # search_element = WebDriverWait(self.driver, 30).until(
         #             EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, "Search Wikipedia"))
@@ -67,6 +67,25 @@ class SenturTests(unittest.TestCase):
         button_allow = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Allow')
         button_allow.click()
         time.sleep(5)
+
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Log in').click()
+
+        search_element = WebDriverWait(self.driver, 15).until(
+                    EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, "Email"))
+                )
+        
+        field_text = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Email')
+        field_text.clear()
+        field_text.send_keys("tester1@mailinator.com")
+        time.sleep(3)
+
+        field_text = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Password')
+        field_text.clear()
+        field_text.send_keys("Pass1234")
+        time.sleep(3)
+        
+
+        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Log in').click()
 
 if __name__ == '__main__':
     unittest.main()
