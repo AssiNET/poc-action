@@ -2,7 +2,8 @@ import time
 import unittest
 import os
 
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 from appium import webdriver
