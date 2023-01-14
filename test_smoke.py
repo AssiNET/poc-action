@@ -1,34 +1,30 @@
 import time
 import unittest
 import os
-
+import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
-import time
+from appium.webdriver.common.touch_action import TouchAction
+from selenium.webdriver.common.by import By
+
 
 
 class SenturTests(unittest.TestCase):
     # Execute BEFORE Test Suite
     @classmethod
     def setUpClass(cls):
-
-        # Check GitHub for ideas around configs/desired caps
-
-        ### iOS
-        ### "app" : "bs://a4f2b75f3106c2c7e9d8417e8458342ca804e024",
-
         userName =  os.getenv("BROWSERSTACK_USERNAME")
         accessKey =  os.getenv("BROWSERSTACK_ACCESS_KEY")
 
+
         desired_caps = {
-            "platformName" : "ios",
-            "platformVersion" : "15",
-            "deviceName" : "iPhone 13 Pro",
-            "app" : "bs://a4f2b75f3106c2c7e9d8417e8458342ca804e024", # "bs://b31e40b7195ee0c80d8578b426e5cf47127c9294"
+            'autoGrantPermissions' : 'true', # accept all alerts
+            "platformName" : "Android",
+            "platformVersion" : "11.0",
+            "deviceName" : "Samsung Galaxy S21",
+            "app" : "bs://8267220e96a2ca0658d6d511f988bc5862a26c1e", # "bs://b31e40b7195ee0c80d8578b426e5cf47127c9294"
         }
 
         cls.driver = webdriver.Remote("https://" + userName + ":" + accessKey + "@hub-cloud.browserstack.com/wd/hub", desired_caps)
@@ -56,37 +52,67 @@ class SenturTests(unittest.TestCase):
 
 
     def test_100_login(self):
+        
+        button_login = WebDriverWait(self.driver, 15).until(
+                    EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, "Log in"))
+                )
+        button_login.click()
 
-        # search_element = WebDriverWait(self.driver, 30).until(
-        #             EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, "Search Wikipedia"))
-        #         )
-        # search_element.click()
+        WebDriverWait(self.driver, 15).until(
+                    EC.element_to_be_clickable((AppiumBy.CLASS_NAME, "android.widget.EditText"))
+                )
 
 
-        time.sleep(15)
-        print("Click Allow Notification")
-        button_allow = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Allow')
-        button_allow.click()
+        inputs = self.driver.find_elements(By.CLASS_NAME, "android.widget.EditText")
+        email_input = inputs[0]
+        password_input = inputs[1]
+        email_input.click()
+        time.sleep(1)
+        email_input.send_keys("tester1@mailinator.com")
+        time.sleep(1)
+
+        password_input.click()
+        time.sleep(1)
+        password_input.send_keys("Pass1234")
+        time.sleep(1)
+
+        WebDriverWait(self.driver, 15).until(
+                    EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, "Log in"))).click()
+
         time.sleep(5)
 
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Log in').click()
+    def test_200_Verify_Tab_Home(self):
+        WebDriverWait(self.driver, 15).until(
+                    EC.visibility_of_element_located((AppiumBy.ACCESSIBILITY_ID, "Meditations & Exercises")))
 
-        search_element = WebDriverWait(self.driver, 15).until(
-                    EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, "Email"))
-                )
-        
-        field_text = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Email')
-        field_text.clear()
-        field_text.send_keys("tester1@mailinator.com")
-        time.sleep(3)
+        ########################
+        ########################
+        ########################
 
-        field_text = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Password')
-        field_text.clear()
-        field_text.send_keys("Pass1234")
-        time.sleep(3)
-        
+    def test_300_Verify_Tab_Parts(self):
+        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="Parts\nTab 2 of 5").click()
+        WebDriverWait(self.driver, 15).until(
+                    EC.visibility_of_element_located((AppiumBy.ACCESSIBILITY_ID, "Self")))
+        time.sleep(1)
 
-        self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Log in').click()
+    def test_400_Verify_Tab_Self(self):
+        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="Self\nTab 3 of 5").click()
+        WebDriverWait(self.driver, 15).until(
+                    EC.visibility_of_element_located((AppiumBy.ACCESSIBILITY_ID, "Week\nTab 1 of 4")))
+        time.sleep(1)
+
+    def test_500_Verify_Tab_Trailheads(self):
+        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="Trailheads\nTab 4 of 5").click()
+        WebDriverWait(self.driver, 15).until(
+                    EC.visibility_of_element_located((AppiumBy.ACCESSIBILITY_ID, "Creating New Trailheads")))
+        time.sleep(1)
+
+    def test_600_Verify_Tab_Journal(self):
+        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="Journal\nTab 5 of 5").click()
+        WebDriverWait(self.driver, 15).until(
+                    EC.visibility_of_element_located((AppiumBy.ACCESSIBILITY_ID, "Your Journal")))
+        time.sleep(1)
+
 
 if __name__ == '__main__':
     unittest.main()
