@@ -47,7 +47,7 @@ jobs:
       - name: Run jq
         uses: sergeysova/jq-action@v2
       
-      - name: Smoke Tests - Android
+      - name: ____ Smoke Tests - Android ____
         run: pytest test_smoke.py --html=Report.html --self-contained-html --capture=tee-sys --junitxml=Report.xml -v
           
       - name: HTML Preview
@@ -81,7 +81,7 @@ jobs:
         with:
           path: "public_url.txt"
           
-      - name: Browserstack Report Link - Android
+      - name: ------- Browserstack Report Link - Android -------
         #run: echo "Click here to view the report:[Browserstack Report Link](${{ steps.read_file_public_url_android.outputs.contents }})"
         run: echo '<a href=${{ steps.read_file_public_url_android.outputs.contents }}>Browserstack Report</a>'
 
@@ -94,7 +94,7 @@ jobs:
           
 ###############################################
 ###############################################
-      - name: Smoke Tests - iOS
+      - name: ____ Smoke Tests iOS _____
         run: pytest test_smoke_ios.py --html=Report.html --self-contained-html --capture=tee-sys --junitxml=Report.xml -v
           
       - name: HTML Preview
@@ -128,7 +128,7 @@ jobs:
         with:
           path: "public_url.txt"
           
-      - name: Browserstack Report Link - iOS
+      - name: ------- Browserstack Report Link - iOS -------
         #run: echo "Click here to view the report:[Browserstack Report Link](${{ steps.read_file_public_url_ios.outputs.contents }})"
         run: echo '<a href=${{ steps.read_file_public_url_ios.outputs.contents }}>Browserstack Report</a>'
 
